@@ -1,0 +1,60 @@
+class ContactList:
+    def __init__(self):
+        self.contacts = []
+
+    def addContact(self):
+        firstname = input("Nom : ")
+        lastname = input("Prénom : ")
+        label = input("Label du numéro : ")
+        indicatif = input("Indicatif du numéro : ")
+        tableau = input("Tableau du numéro : ")
+        email = input("Email: ")
+        cp = input("Code postal: ")
+        adress = input("Adresse: ")
+
+        if not firstname or not lastname or not label or not indicatif or not tableau:
+            print("Le nom, le prénom et au moins un numéro de téléphone sont obligatoires.")
+            return
+
+        new_numero = Numero(label, indicatif, tableau)
+        new_contact = Contact(firstname, lastname, new_numero, email, cp, adress)
+        self.contacts.append(new_contact)
+
+        print("Le contact a été ajouté avec succès.")
+
+    def displayContacts(self):
+        sorted_contacts = sorted(self.contacts, key=lambda contact: contact.lastname)
+ 
+        print("===========================")
+        print("=== Liste des contacts ===")
+        for contact in sorted_contacts:
+            print(f"Nom     : {contact.firstname} {contact.lastname}")
+            print(f"Téléphone : {contact.numero.label} {contact.numero.indicatif} {contact.numero.tableau}")
+            print(f"Email   : {contact.email}")
+            print(f"Code postal : {contact.cp}")
+            print(f"Adresse : {contact.adress}")
+            print("---------------------------")
+    print("===========================")
+
+    def searchContact(self):
+        search_term = input("Entrez le nom ou le prénom du contact à rechercher : ")
+
+        search_results = []
+        for contact in self.contacts:
+            if search_term.lower() in contact.firstname.lower() or search_term.lower() in contact.lastname.lower():
+                search_results.append(contact)
+
+        if not search_results:
+            print("Aucun contact trouvé.")
+        else:
+            print(f"\n=== Résultats de recherche pour '{search_term}' ===")
+            for i, contact in enumerate(search_results):
+                print(f"Contact {i + 1}:")
+                print(f"Nom     : {contact.firstname}")
+                print(f"Prénom  : {contact.lastname}")
+                print(f"Téléphone : {contact.numero.label} {contact.numero.indicatif} {contact.numero.tableau}")
+                print(f"Email   : {contact.email}")
+                print(f"Code postal : {contact.cp}")
+                print(f"Adresse : {contact.adress}")
+                print("---------------------------")
+            print("===========================")
